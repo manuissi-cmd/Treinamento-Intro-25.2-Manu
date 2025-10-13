@@ -238,3 +238,133 @@ body {
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
 }
+
+
+:root{
+  --atl-bg: #ffffff;
+  --atl-text: #111;
+  --atl-muted: #444;
+  --atl-border: #e5c63b;
+
+  --atl-brand-blue: #3b82f6;
+  --atl-brand-blue-2: #60a5fa;
+  --atl-yellow: #ffd24a;
+
+  --atl-logo-size: 44px;
+}
+
+/* Componentes:*/
+/* NAVBAR */
+.navbar{
+  position: fixed; top: 0; left: 0; right: 0; height: 64px;
+  z-index: 999;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px;
+  background: linear-gradient(180deg, var(--atl-brand-blue) 0%, var(--atl-brand-blue-2) 100%);
+}
+.brand{ display: flex; align-items: center; gap: 10px; height: 64px; }
+
+.logo-img{
+  height: var(--atl-logo-size);
+  width: var(--atl-logo-size);
+  object-fit: cover;
+  border-radius: 12px;
+  /* “anel” branco grosso */
+  box-shadow: 0 0 0 3px #fff;
+}
+
+.brand-name{
+  font-family: "Bebas Neue", system-ui, -apple-system, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  line-height: var(--atl-logo-size);
+  font-size: calc(var(--atl-logo-size) * 0.9);
+  color: var(--atl-yellow);
+}
+
+/* Container da página da lojinha  */
+.container--lojinha{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 96px 20px 56px; 
+  color: var(--atl-text);
+  background: var(--atl-bg);
+}
+
+/* Título h1 da lojinha igual ao original */
+.h1-lojinha{
+  color: var(--atl-yellow);
+  font-weight: 800;
+  font-size: clamp(28px, 4vw, 64px);
+  line-height: 1.05;
+  text-align: center;
+  letter-spacing: .4px;
+  margin-bottom: 24px;
+}
+
+/* GRID de produtos */
+#products.grid{
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px; align-items: stretch;
+}
+
+/* CARD de produto */
+.card{
+  background: var(--atl-yellow);
+  border: 1px solid var(--atl-border);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex; flex-direction: column; gap: 10px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.18);
+  color: #111;
+}
+
+
+.card .thumb{
+  position: relative;                
+  width: 100%;
+  max-width: 160px;                  
+  aspect-ratio: 1 / 1;               
+  margin: 8px auto 10px;
+  background: #fff;
+  border-radius: 14px;
+  
+  box-shadow: 0 0 0 4px #fff, 0 8px 16px rgba(0,0,0,.12);
+}
+
+/* o <img> gerado pelo next/image vai preencher o container */
+.card .thumb > img{
+  position: absolute;
+  inset: 10px;                        /* “padding” interno */
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+
+
+.body{ display: grid; gap: 6px; }
+.title{ font-size: 16px; font-weight: 800; }
+.price{ color: #333; font-weight: 700; margin-left: 6px; }
+.desc{ color: var(--atl-muted); font-size: 13px; }
+
+.actions{ margin-top: 6px; display: flex; gap: 8px; align-items: center; }
+
+.btn{
+  border: none; border-radius: 10px;
+  padding: 10px 12px; font-weight: 800; cursor: pointer;
+}
+.btn-rem{
+  width: 40px; background: transparent; color: #111;
+  border: 1px solid #d9b92f; border-radius: 10px;
+}
+.btn-add{
+  flex: 1;
+  color: #fff;
+  background: linear-gradient(180deg, var(--atl-brand-blue) 0%, var(--atl-brand-blue-2) 100%);
+  box-shadow: 0 6px 16px rgba(59,130,246,.28);
+}
+.btn-add:hover{ filter: brightness(1.05); }
+.btn-add:active{ transform: translateY(1px); }
+

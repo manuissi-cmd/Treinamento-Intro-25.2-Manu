@@ -1,39 +1,61 @@
-import LandingPagesNav from "@/components/nav/InitialNav";
-import Embarcar from "./Embarcar";
-import { headers } from "next/headers";
-import { auth } from "@/auth";
-import CarouselExample from "./CarouselExample";
+'use client';
 
-export default async function Home() {
-  const session = await auth.api.getSession({
-    headers: await headers()
-  });
-  
-  const isLogged = !!session?.user;
+import React, { useMemo, useState } from 'react';
+import Navbar from '../../../../components/Navbar';
+import ProdutoCard from '../../../../components/ProdutoCard';
+import { produtos } from '@data/produtos';
+
+type Produto = {
+  id: number;
+  nome: string;
+  descricao: string;
+  preco: number;
+  img?: string;
+};
+type CarrinhoState = Record<number, number>;
+
+export default function HomePage() {
+  const [carrinho, setCarrinho] = useState<CarrinhoState>({});
+
+  const totalItensNoCarrinho = useMemo(
+    () => Object.values(carrinho).reduce((total, q) => total + q, 0),
+    [carrinho]
+  );
+
+  const handleAddItem = (id: number) => {
+    setCarrinho(prev => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
+  };
+
+  const handleRemoveItem = (id: number) => {
+    setCarrinho(prev => {
+      const nova = Math.max(0, (prev[id] || 0) - 1);
+      if (nova === 0) {
+        const { [id]: _omit, ...rest } = prev;
+        return rest;
+      }
+      return { ...prev, [id]: nova };
+    });
+  };
 
   return (
-    <div className="min-h-screen">
-      <LandingPagesNav isLogged={isLogged} />
-      
-      <main className="h-[70vh] w-full pt-20 pb-16
-      flex items-center justify-center gap-24 xl:gap-30">
-        <div className="w-[40%] h-full rounded-2xl bg-gray-700 ">
+    <>
+      <Navbar userName="manu.issi" cartCount={totalItensNoCarrinho} />
 
-        </div>
+      <main className="container--lojinha">
+        <h1 className="h1-lojinha">Produtos</h1>
 
-        <div className="flex flex-col gap-6">
-          <h1 className="font-bold text-5xl">Aprenda do seu jeito</h1>
-          <p className="text-xl font-medium [&>span]:text-pink-500 [&>span]:font-bold">
-            Escolha o que <span>te interessa</span> e customize para o seu modo<br/>
-            preferido de aprender, com <span>vídeos</span>, <span>textos</span>, <span>podcasts</span>,<br/>
-            <span>exercícios</span>, <span>simulações</span> e <span>muita interatividade!</span>
-          </p>
+        <div id="products" className="grid">
+          {produtos.map((p: Produto) => (
+            <ProdutoCard
+              key={p.id}
+              produto={p}
+              quantidade={carrinho[p.id] || 0}
+              onAdd={handleAddItem}
+              onRemove={handleRemoveItem}
+            />
+          ))}
         </div>
       </main>
-
-      <Embarcar isLogged={isLogged} />
-
-      <CarouselExample />
-    </div>
+    </>
   );
 }

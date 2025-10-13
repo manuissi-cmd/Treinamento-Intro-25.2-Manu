@@ -13,17 +13,24 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "plugins": [{ "name": "next" }],
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./src/*"],                // continua valendo para coisas dentro de src/
       "@/backend/*": ["./src/app/(backend)/*"],
       "@/frontend/*": ["./src/app/(frontend)/*"],
+
+      "@components/*": ["components/*"], // 👈 aponta para web/components
+      "@data/*": ["data/*"]              // 👈 aponta para web/data
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": [
+  "next-env.d.ts",
+  "**/*.ts",
+  "**/*.tsx",
+  "**/*.js",
+  "**/*.jsx",
+  ".next/types/**/*.ts"
+, "data/produtos"],
   "exclude": ["node_modules"]
 }
