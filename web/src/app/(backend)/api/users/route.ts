@@ -1,80 +1,21 @@
-import { NextRequest, NextResponse } from "next/server";
+/* import { NextResponse } from "next/server";
+import {users} from "@/backend/services/users"
 
-import { registerSchema } from "@/backend/schemas";
-import { blockForbiddenRequests, returnInvalidDataErrors, validBody, zodErrorHandler } from "@/utils/api";
-import { findUserByEmail, getAllUsers } from "../../services/users";
-import { AllowedRoutes } from "@/types";
-import { auth } from "@/auth";
-
-const allowedRoles: AllowedRoutes = {
-  GET: ["SUPER_ADMIN", "ADMIN"]
+export async function GET() {
+  return NextResponse.json(await usersService.list());
 }
 
-// rota de get all users
-export async function GET(request: NextRequest) {
-  try {
-    const forbidden = await blockForbiddenRequests(request, allowedRoles.POST);
-    if (forbidden) {
-      return forbidden;
-    }
+export async function POST(req: Request) {
+  const b = await req.json();
+  const { email, name } = b;
 
-    const users = await getAllUsers();
-    return NextResponse.json(users);
-  } catch (error) {
-    if (error instanceof NextResponse) {
-      return error;
-    }
-
-    return zodErrorHandler(error);    
-  }
-}
-
-export async function POST(request: NextRequest) {
-  try {
-    const body = await validBody(request);
-    const validationResult = registerSchema.safeParse(body);
-
-    if (!validationResult.success) {
-      return returnInvalidDataErrors(validationResult.error);
-    }
-    
-    const validatedData = validationResult.data
-
-    const { name, email, password } = validatedData;
-
-    const existingUser = await findUserByEmail(email);
-
-    if (existingUser) {
-      return NextResponse.json(
-        { 
-          error: "Usuário já existe",
-          field: "email" 
-        },
-        { status: 409 }
-      );
-    }    
-    
-    const user = await auth.api.signUpEmail({
-      body: {
-        name,
-        email,
-        password,
-        callbackURL: "/",
-      }
-    });
-
+  if (!email) {
     return NextResponse.json(
-      { 
-        message: "Usuário criado com sucesso",
-        user 
-      },
-      { status: 201 }
+      { error: "Campo obrigatório: email." },
+      { status: 400 }
     );
-  } catch (error) {
-    if (error instanceof NextResponse) {
-      return error;
-    }
-
-    return zodErrorHandler(error);    
   }
-}
+
+  const user = await usersService.create({ email, name });
+  return NextResponse.json(user, { status: 201 });
+} */
