@@ -6,11 +6,16 @@ import { ToastProvider } from "@/components/common/ToastProvider";
 const rubik = Rubik({
   variable: "--font-rubik",
   subsets: ["latin"],
-})
+});
 
 export const metadata: Metadata = {
-  title: "Noctiluz",
-  description: "Plataforma para olimpíadas científicas e reforço escolar",
+  title: "Loja Atlética Poli USP",
+  description: "Merch oficial da Atlética Poli USP",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
@@ -20,11 +25,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR">
-      <body
-        className={`${rubik.variable} antialiased`}
-      >
+      <body className={`${rubik.variable} antialiased`}>
         {children}
-
         <ToastProvider />
       </body>
     </html>
