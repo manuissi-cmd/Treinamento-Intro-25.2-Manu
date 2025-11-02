@@ -1,8 +1,8 @@
-// web/src/app/(backend)/api/categorias/route.ts
+
 import { NextResponse } from "next/server";
 import prisma from "@/backend/services/db";
 
-// GET /api/categorias
+
 export async function GET() {
   try {
     const categorias = await prisma.categoria.findMany({
@@ -16,10 +16,7 @@ export async function GET() {
   }
 }
 
-// POST /api/categorias
-// Aceita:
-// 1) { "nome": "Camisetas" }  -> cria/garante uma
-// 2) { "nomes": ["Roupas","Acessórios"] } -> cria/garante várias (compatível sem createMany)
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -44,7 +41,7 @@ export async function POST(req: Request) {
       return NextResponse.json(criadas, { status: 201 });
     }
 
-    // ÚNICA: { nome: string }
+    
     const nome =
       typeof body?.nome === "string" ? body.nome.trim() : "";
     if (!nome) {
@@ -64,7 +61,7 @@ export async function POST(req: Request) {
   }
 }
 
-// DELETE /api/categorias  -> body: { id: string }
+
 export async function DELETE(req: Request) {
   try {
     const body = await req.json();

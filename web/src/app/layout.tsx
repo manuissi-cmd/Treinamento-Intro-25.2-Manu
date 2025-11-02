@@ -1,33 +1,19 @@
-import type { Metadata } from "next";
-import { Rubik } from "next/font/google";
+// web/src/app/layout.tsx
 import "./globals.css";
-import { ToastProvider } from "@/components/common/ToastProvider";
+import type { ReactNode } from "react";
 
-const rubik = Rubik({
-  variable: "--font-rubik",
-  subsets: ["latin"],
-});
+// Se quiser os providers no app todo, pode manter aqui também:
+import { AuthProvider } from "@/contexts/AuthContext";
+import { CartProvider } from "@/contexts/CartContext";
 
-export const metadata: Metadata = {
-  title: "Loja Atlética Poli USP",
-  description: "Merch oficial da Atlética Poli USP",
-  icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
-  },
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR">
-      <body className={`${rubik.variable} antialiased`}>
-        {children}
-        <ToastProvider />
+      <body>
+        {/* Providers globais (opcional manter aqui) */}
+        <AuthProvider>
+          <CartProvider>{children}</CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );
